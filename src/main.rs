@@ -24,9 +24,11 @@ fn main() -> Result<(), Error> {
             for entry in std::fs::read_dir(path).unwrap() {
                 let dir = entry.unwrap();
                 if dir.path().is_dir() {
-                    match common(dir.path().to_str().unwrap(), &branch1, &args.branch2) {
-                        Ok(a) => println!("{:?}: {}", dir.path(), a),
-                        Err(e) => eprintln!("ERROR: {:?}: {}", dir.path(), e),
+                    let path = dir.path();
+                    let path_str = path.to_str().unwrap();
+                    match common(path_str, &branch1, &args.branch2) {
+                        Ok(a) => println!("{}: {}", path_str, a),
+                        Err(e) => eprintln!("ERROR: {}: {}", path_str, e),
                     }
                 }
             }
