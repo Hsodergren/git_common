@@ -85,7 +85,8 @@ fn get_commit_set(repo: &Repository, branch: Oid) -> Result<HashSet<Oid>, Error>
 
 fn get_oid(repo: &Repository, branch: &str) -> Result<Oid, Error> {
     Ok(repo
-        .find_branch(branch, git2::BranchType::Local)?
+        .find_branch(branch, git2::BranchType::Local)
+        .or(repo.find_branch(branch, git2::BranchType::Remote))?
         .get()
         .target()
         .unwrap())
